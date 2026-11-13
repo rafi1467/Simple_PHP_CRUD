@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Student Manager — Simple PHP CRUD
 
 A clean, beginner-friendly **PHP & MySQL CRUD (Create, Read, Update, Delete)** web application built with procedural `mysqli` and zero external dependencies. Designed as a hands-on learning project for **Software Developers** and **SQA (Software Quality Assurance) Engineers**.
@@ -125,3 +126,6 @@ When creating or updating a student record, the application is expected to follo
   Make sure you created `.env` in the root folder (copied from `.env.example`).
 - **Connection Refused on Port 3306**
   Open the XAMPP Control Panel and confirm that **MySQL** is started and running on port `3306`.
+=======
+# Simple_PHP_CRUD
+>>>>>>> 930ad014a3958d785b80bb4f27f28ac3cbe0e2cd
