@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Student Manager — Simple PHP CRUD
 
 A clean, beginner-friendly **PHP & MySQL CRUD (Create, Read, Update, Delete)** web application built with procedural `mysqli` and zero external dependencies. Designed as a hands-on learning project for **Software Developers** and **SQA (Software Quality Assurance) Engineers**.
