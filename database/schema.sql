@@ -10,20 +10,20 @@ CREATE DATABASE IF NOT EXISTS simple_php_crud
 
 USE simple_php_crud;
 
-DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS students;
 
-CREATE TABLE employees (
+CREATE TABLE students (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     phone VARCHAR(20) NOT NULL,
-    role VARCHAR(50) NOT NULL,
-    salary DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    department VARCHAR(50) NOT NULL,
+    cgpa DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Seed sample employees for demonstration
-INSERT INTO employees (name, email, phone, role, salary) VALUES
-('Alice Johnson', 'alice@example.com', '01711000001', 'Software Developer', 65000.00),
-('Bob Smith', 'bob@example.com', '01711000002', 'SQA Engineer', 55000.00),
-('Charlie Davis', 'charlie@example.com', '01711000003', 'Project Manager', 80000.00);
+-- Seed sample students for demonstration
+INSERT INTO students (name, email, phone, department, cgpa) VALUES
+('Alice Johnson', 'alice@example.com', '01711000001', 'CSE', 3.13),
+('Bob Smith', 'bob@example.com', '01711000002', 'BBA', 3.50),
+('David Backham', 'david@example.com', '01711000003', 'English', 3.75);

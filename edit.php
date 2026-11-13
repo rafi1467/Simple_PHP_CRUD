@@ -1,6 +1,6 @@
 <?php
 /**
- * UPDATE: Edit an existing employee by ID
+ * UPDATE: Edit an existing student by ID
  * Note for Instructor: Validation blocks are intentionally commented out
  * so SQA can test update bugs, and Developers can uncomment them to fix.
  */
@@ -8,87 +8,87 @@ require_once __DIR__ . '/config/db.php';
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-// Fetch existing employee record
-$sql = "SELECT * FROM employees WHERE id = $id";
+// Fetch existing student record
+$sql = "SELECT * FROM students WHERE id = $id";
 $result = mysqli_query($conn, $sql);
-$employee = $result ? mysqli_fetch_assoc($result) : null;
+$student = $result ? mysqli_fetch_assoc($result) : null;
 
-if (!$employee) {
-    die('Employee not found. <a href="index.php">Go back to list</a>');
+if (!$student) {
+    die('Student not found. <a href="index.php">Go back to list</a>');
 }
 
 $errors = [];
-$name   = $employee['name'];
-$email  = $employee['email'];
-$phone  = $employee['phone'];
-$role   = $employee['role'];
-$salary = $employee['salary'];
+$name   = $student['name'];
+$email  = $student['email'];
+$phone  = $student['phone'];
+$department = $student['department'];
+$cgpa = $student['cgpa'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name   = trim($_POST['name'] ?? '');
     $email  = trim($_POST['email'] ?? '');
     $phone  = trim($_POST['phone'] ?? '');
-    $role   = trim($_POST['role'] ?? '');
-    $salary = trim($_POST['salary'] ?? '');
+    $department   = trim($_POST['department'] ?? '');
+    $cgpa = trim($_POST['cgpa'] ?? '');
 
     // =====================================================================
     // [VALIDATION 1] Required / Empty Fields Check (Commented out for SQA)
     // =====================================================================
-    /*
-    if (empty($name) || empty($email) || empty($phone) || empty($role) || $salary === '') {
+    
+    if (empty($name) || empty($email) || empty($phone) || empty($department) || $cgpa === '') {
         $errors[] = 'All fields are required and cannot be empty.';
     }
-    */
+    
 
     // =====================================================================
     // [VALIDATION 2] Name Length Boundary Check: 3 to 50 characters
     // =====================================================================
-    /*
+    
     if (!empty($name) && (strlen($name) < 3 || strlen($name) > 50)) {
         $errors[] = 'Name must be between 3 and 50 characters long.';
     }
-    */
+    
 
     // =====================================================================
     // [VALIDATION 3] Email Format Validation
     // =====================================================================
-    /*
+    
     if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'Please enter a valid email address (e.g. user@example.com).';
     }
-    */
+    
 
     // =====================================================================
     // [VALIDATION 4] Phone Format Validation (Digits only, 11 digits)
     // =====================================================================
-    /*
+    
     if (!empty($phone) && !preg_match('/^[0-9]{11}$/', $phone)) {
         $errors[] = 'Phone number must be exactly 11 digits (numbers only).';
     }
-    */
+    
 
     // =====================================================================
-    // [VALIDATION 5] Salary Numeric & Boundary Validation (0 to 500,000)
+    // [VALIDATION 5] CGPA Numeric & Boundary Validation (0 to 4.00)
     // =====================================================================
-    /*
-    if ($salary !== '' && (!is_numeric($salary) || (float) $salary < 0 || (float) $salary > 500000)) {
-        $errors[] = 'Salary must be a positive number between 0 and 500,000.';
+    
+    if ($cgpa !== '' && (!is_numeric($cgpa) || (float) $cgpa < 0 || (float) $cgpa > 4.00)) {
+        $errors[] = 'CGPA must be a number between 0 and 4.00.';
     }
-    */
+    
 
     if (empty($errors)) {
         $safeName   = mysqli_real_escape_string($conn, $name);
         $safeEmail  = mysqli_real_escape_string($conn, $email);
         $safePhone  = mysqli_real_escape_string($conn, $phone);
-        $safeRole   = mysqli_real_escape_string($conn, $role);
-        $safeSalary = (float) $salary;
+        $safeDepartment   = mysqli_real_escape_string($conn, $department);
+        $safeCgpa = (float) $cgpa;
 
-        $updateSql = "UPDATE employees
+        $updateSql = "UPDATE students
                       SET name = '$safeName',
                           email = '$safeEmail',
                           phone = '$safePhone',
-                          role = '$safeRole',
-                          salary = '$safeSalary'
+                          department = '$safeDepartment',
+                          cgpa = '$safeCgpa'
                       WHERE id = $id";
 
         if (mysqli_query($conn, $updateSql)) {
@@ -105,7 +105,7 @@ include __DIR__ . '/includes/header.php';
 
 <div class="card">
     <div class="page-header">
-        <h1>Edit Employee (#<?php echo (int) $employee['id']; ?>)</h1>
+        <h1>Edit Student (#<?php echo (int) $student['id']; ?>)</h1>
         <a href="index.php" class="btn btn-secondary">&larr; Back to List</a>
     </div>
 
@@ -120,7 +120,7 @@ include __DIR__ . '/includes/header.php';
         </div>
     <?php endif; ?>
 
-    <form action="edit.php?id=<?php echo (int) $employee['id']; ?>" method="POST">
+    <form action="edit.php?id=<?php echo (int) $student['id']; ?>" method="POST">
         <div class="form-group">
             <label for="name">Full Name *</label>
             <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>">
@@ -146,26 +146,26 @@ include __DIR__ . '/includes/header.php';
         </div>
 
         <div class="form-group">
-            <label for="role">Role / Department *</label>
-            <select id="role" name="role">
-                <option value="">-- Select Role --</option>
-                <option value="Software Developer" <?php if ($role === 'Software Developer') echo 'selected'; ?>>Software Developer</option>
-                <option value="SQA Engineer" <?php if ($role === 'SQA Engineer') echo 'selected'; ?>>SQA Engineer</option>
-                <option value="UI/UX Designer" <?php if ($role === 'UI/UX Designer') echo 'selected'; ?>>UI/UX Designer</option>
-                <option value="Project Manager" <?php if ($role === 'Project Manager') echo 'selected'; ?>>Project Manager</option>
+            <label for="department">Department *</label>
+            <select id="department" name="department">
+                <option value="">-- Select Department --</option>
+                <option value="CSE" <?php if ($department === 'CSE') echo 'selected'; ?>>CSE</option>
+                <option value="SWE" <?php if ($department === 'SWE') echo 'selected'; ?>>SWE</option>
+                <option value="BBA" <?php if ($department === 'BBA') echo 'selected'; ?>>BBA</option>
+                <option value="English" <?php if ($department === 'English') echo 'selected'; ?>>English</option>
             </select>
-            <span class="hint">Expected: Must select a valid role.</span>
+            <span class="hint">Expected: Must select a valid department.</span>
         </div>
 
         <div class="form-group">
-            <label for="salary">Monthly Salary ($) *</label>
-            <input type="number" step="0.01" id="salary" name="salary" value="<?php echo htmlspecialchars($salary); ?>">
+            <label for="cgpa">CGPA *</label>
+            <input type="number" step="0.01" id="cgpa" name="cgpa" value="<?php echo htmlspecialchars($cgpa); ?>">
             <!-- FIX: Uncomment below for client-side HTML validation -->
-            <!-- <input type="number" step="0.01" min="0" max="500000" id="salary" name="salary" value="<?php echo htmlspecialchars($salary); ?>" required> -->
-            <span class="hint">Expected: Positive number between 0 and 500,000.</span>
+            <!-- <input type="number" step="0.01" min="0" max="4.00" id="cgpa" name="cgpa" value="<?php echo htmlspecialchars($cgpa); ?>" required> -->
+            <span class="hint">Expected: Positive number between 0 and 4.00.</span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Employee</button>
+        <button type="submit" class="btn btn-primary">Update Student</button>
     </form>
 </div>
 

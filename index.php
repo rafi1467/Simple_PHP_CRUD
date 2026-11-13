@@ -1,11 +1,11 @@
 <?php
 /**
- * READ (All): List all employees from the database
+ * READ (All): List all students from the database
  */
 require_once __DIR__ . '/config/db.php';
 
-// Fetch all employees ordered by newest first
-$sql = "SELECT * FROM employees ORDER BY id DESC";
+// Fetch all students ordered by newest first
+$sql = "SELECT * FROM students ORDER BY id ASC";
 $result = mysqli_query($conn, $sql);
 
 include __DIR__ . '/includes/header.php';
@@ -13,16 +13,16 @@ include __DIR__ . '/includes/header.php';
 
 <div class="card">
     <div class="page-header">
-        <h1>Employee Directory</h1>
-        <a href="create.php" class="btn btn-primary">+ Add New Employee</a>
+        <h1>Student Information</h1>
+        <a href="create.php" class="btn btn-primary">+ Add New Student</a>
     </div>
 
     <?php if (isset($_GET['msg'])): ?>
         <div class="alert alert-success">
             <?php
-            if ($_GET['msg'] === 'created') echo 'Employee added successfully!';
-            if ($_GET['msg'] === 'updated') echo 'Employee updated successfully!';
-            if ($_GET['msg'] === 'deleted') echo 'Employee deleted successfully!';
+            if ($_GET['msg'] === 'created') echo 'Student added successfully!';
+            if ($_GET['msg'] === 'updated') echo 'Student updated successfully!';
+            if ($_GET['msg'] === 'deleted') echo 'Student deleted successfully!';
             ?>
         </div>
     <?php endif; ?>
@@ -35,8 +35,8 @@ include __DIR__ . '/includes/header.php';
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>Role</th>
-                    <th>Salary ($)</th>
+                    <th>Department</th>
+                    <th>CGPA</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -48,8 +48,8 @@ include __DIR__ . '/includes/header.php';
                             <td><?php echo htmlspecialchars($row['name']); ?></td>
                             <td><?php echo htmlspecialchars($row['email']); ?></td>
                             <td><?php echo htmlspecialchars($row['phone']); ?></td>
-                            <td><span class="badge"><?php echo htmlspecialchars($row['role']); ?></span></td>
-                            <td>$<?php echo number_format((float) $row['salary'], 2); ?></td>
+                            <td><span class="badge"><?php echo htmlspecialchars($row['department']); ?></span></td>
+                            <td><?php echo htmlspecialchars($row['cgpa']); ?></td>
                             <td class="actions">
                                 <a href="view.php?id=<?php echo (int) $row['id']; ?>" class="btn btn-sm btn-info">View</a>
                                 <a href="edit.php?id=<?php echo (int) $row['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
@@ -63,7 +63,7 @@ include __DIR__ . '/includes/header.php';
                     <?php endwhile; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="7" style="text-align: center;">No employees found. Click "+ Add New Employee" to create one.</td>
+                        <td colspan="7" style="text-align: center;">No student found. Click "+ Add New Student" to create one.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
