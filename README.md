@@ -112,7 +112,7 @@ When creating or updating a student record, the application is expected to follo
 | **Full Name** | Text | Yes | Must be between **3 and 50 characters** |
 | **Email Address** | Email | Yes | Must be a **valid email format** (e.g., `name@example.com`) |
 | **Phone Number** | Text | Yes | Must be **exactly 11 digits** (`0-9` only) |
-| **Department** | Dropdown | Yes | Must select a valid option (`CSE`, `SWEr`, `BBA`, `English`) |
+| **Department** | Dropdown | Yes | Must select a valid option (`CSE`, `SWE`, `BBA`, `English`) |
 | **CGPA** | Number | Yes | Must be a numeric value between **0 and 4.00** |
 
 ---
@@ -125,6 +125,4 @@ When creating or updating a student record, the application is expected to follo
   Make sure you created `.env` in the root folder (copied from `.env.example`).
 - **Connection Refused on Port 3306**
   Open the XAMPP Control Panel and confirm that **MySQL** is started and running on port `3306`.
-=======
-# Simple_PHP_CRUD
->>>>>>> 930ad014a3958d785b80bb4f27f28ac3cbe0e2cd
+
